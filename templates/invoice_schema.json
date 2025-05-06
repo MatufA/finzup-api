@@ -1,0 +1,118 @@
+{
+  "description": "",
+  "type": "object",
+  "properties": {
+    "invoiceNumber": {
+      "type": "integer",
+      "examples": [10088979]
+    },
+    "invoiceDate": {
+      "type": "string",
+      "examples": ["2024-02-25"]
+    },
+    "supplier": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "examples": ["אם ג'י. אם. פיקסל"]
+        },
+        "address": {
+          "type": "object",
+          "properties": {
+            "street": {
+              "type": "string",
+              "examples": ["החרושת 4034"]
+            },
+            "city": {
+              "type": "string",
+              "examples": ["רעננה"]
+            },
+            "phone": {
+              "type": "string",
+              "examples": ["09-8010990"]
+            },
+            "fax": {
+              "type": "string",
+              "examples": ["515689156"]
+            },
+            "email": {
+              "type": "string",
+              "examples": ["soptor@example.com"]
+            },
+            "license": {
+              "type": "string",
+              "examples": ["עוסק בע״מ"]
+            }
+          }
+        }
+      }
+    },
+    "recipient": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "examples": ["מרקט תאטי"]
+        },
+        "address": {
+          "type": "object",
+          "properties": {
+            "street": {
+              "type": "string",
+              "examples": ["9 זייגר האחים"]
+            },
+            "city": {
+              "type": "string",
+              "examples": ["לציון ראשון"]
+            }
+          }
+        }
+      }
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string",
+            "examples": [
+              "אנרגי פריכיות",
+              "בטטה דק קרקר חטיפי",
+              "בטעמי ממולא טופי",
+              "שוקולד בפלות",
+              "עוגיות לבן ש חלבון חטיף"
+            ]
+          },
+          "quantity": {
+            "type": "integer",
+            "examples": [1, 2, 3, 100, 6]
+          },
+          "unitPriceNis": {
+            "type": "number",
+            "examples": [3.42, 6.62, 7.1, 8.1, 12]
+          },
+          "totalPriceNis": {
+            "type": "number",
+            "examples": [34.2, 12, 14.2, 48.6, 19.86]
+          },
+          "barcode": {
+            "type": "string",
+            "examples": [
+              "7290119371105",
+              "7290018571095",
+              "7290000174099",
+              "7290110578350",
+              "7290112968821"
+            ]
+          }
+        }
+      }
+    },
+    "totalAmountNis": {
+      "type": "number",
+      "examples": [1680.86]
+    }
+  }
+}
