@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Field
 from typing import Optional, List
 from datetime import datetime
 
@@ -48,32 +48,39 @@ class AuditLog(BaseModel):
 
 # Invoice Data Models
 class Address(BaseModel):
-    street: str
-    city: str
-    phone: Optional[str] = None
-    fax: Optional[str] = None
-    email: Optional[str] = None
-    license: Optional[str] = None
+    street: str = Field(..., description="Street address of the entity")
+    city: str = Field(..., description="City where the entity is located")
+    phone: Optional[str] = Field(None, description="Phone number of the entity")
+    fax: Optional[str] = Field(None, description="Fax number of the entity")
+    email: Optional[EmailStr] = Field(None, description="Email address of the entity")
+    license: Optional[str] = Field(None, description="Business license number of the entity")
 
 class Supplier(BaseModel):
-    name: str
-    address: Address
+    name: str = Field(..., description="Name of the supplier or vendor")
+    address: Address = Field(..., description="Address information of the supplier")
 
 class Recipient(BaseModel):
-    name: str
-    address: Address
+    name: str = Field(..., description="Name of the recipient or customer")
+    address: Address = Field(..., description="Address information of the recipient")
+
+class DeliveryCompany(BaseModel):
+    name: str = Field(..., description="Name of the delivery company")
+    phone: str = Field(..., description="Phone number of the delivery company")
+    email: Optional[EmailStr] = Field(None, description="Email address of the delivery company")
+    notes: Optional[str] = Field(None, description="Additional notes about the delivery")
 
 class InvoiceItem(BaseModel):
-    description: str
-    quantity: int
-    unitPriceNis: float
-    totalPriceNis: float
-    barcode: Optional[str] = None
+    description: str = Field(..., description="Description of the item or service")
+    quantity: int = Field(..., description="Quantity of the item", ge=1)
+    unitPriceNis: float = Field(..., description="Unit price in NIS (New Israeli Shekel)", ge=0)
+    totalPriceNis: float = Field(..., description="Total price for the item in NIS", ge=0)
+    barcode: Optional[str] = Field(None, description="Barcode or product code of the item")
 
 class InvoiceData(BaseModel):
-    invoiceNumber: int
-    invoiceDate: str
-    supplier: Supplier
-    recipient: Recipient
-    items: List[InvoiceItem]
-    totalAmountNis: float 
+    invoiceNumber: int = Field(..., description="Unique invoice number", ge=1)
+    invoiceDate: str = Field(..., description="Date of the invoice")
+    supplier: Supplier = Field(..., description="Information about the supplier")
+    recipient: Recipient = Field(..., description="Information about the recipient")
+    delivery_company: Optional[DeliveryCompany] = Field(None, description="Information about the delivery company")
+    items: List[InvoiceItem] = Field(..., description="List of items or services in the invoice", min_items=1)
+    totalAmountNis: float = Field(..., description="Total amount of the invoice in NIS", ge=0) 

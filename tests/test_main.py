@@ -16,8 +16,28 @@ def test_user():
     }
 
 @pytest.fixture
-def test_token(test_user):
-    return create_access_token("test_user_id")
+def test_token():
+    # Create a test user
+    response = client.post(
+        "/api/v1/auth/register",
+        json={
+            "email": "test@example.com",
+            "password": "testpassword123",
+            "full_name": "Test User"
+        }
+    )
+    assert response.status_code == 200
+    
+    # Login to get token
+    response = client.post(
+        "/api/v1/auth/login",
+        data={
+            "username": "test@example.com",
+            "password": "testpassword123"
+        }
+    )
+    assert response.status_code == 200
+    return response.json()["access_token"]
 
 def test_register(test_user):
     response = client.post("/api/v1/auth/register", json=test_user)
